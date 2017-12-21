@@ -60,35 +60,60 @@ public class BookDao {
 				+ " on book.user_id=user.id"
 				+ " limit :nof"
 				+ " offset :offset", Book.class);
+		
 		query.setParameter("offset", offset);
 		query.setParameter("nof", nof);
 		List<Book> books = query.getResultList();
 		return books;
 	}
 	
-	public List<Book> selectByTag(Long tid, Long aid, int page, int nof) {
+	public List<Book> selectByTag(Long tid, Long aid, int offset, int nof) {
 		Query query = em.createNativeQuery(
-				"select * from book"
-				+ " where (title_tags_id=:tid and author_tags_id=:aid)"
+				"select "
+				+ " book.id"
+				+ ", book.img_src"
+				+ ", book.content"
+				+ ", book.user_id"
+				+ ", book.title_tag_id"
+				+ ", book.author_tag_id"
+				+ ", book.created_date"
+				+ ", book.last_updated_date"
+				+ ", user.display_name"
+				+ " from book"
+				+ " inner join user"
+				+ " on book.user_id=user.id"
+				+ " where (book.title_tag_id=:tid and book.author_tag_id=:aid)"
 				+ " limit :nof"
-				+ " offset :page", Book.class);
+				+ " offset :offset", Book.class);
 		query.setParameter("tid", tid);
 		query.setParameter("aid", aid);
 		query.setParameter("nof", nof);
-		query.setParameter("page", page);
+		query.setParameter("offset", offset);
 		List<Book> books = query.getResultList();
 		return books;
 	}
 	
-	public List<Book> selectByAuthorTag(Long aid, int page, int nof) {
+	public List<Book> selectByAuthorTag(Long aid, int offset, int nof) {
 		Query query = em.createNativeQuery(
-				"select * from book"
-				+ " where (author_tags_id=:aid)"
+				"select "
+				+ " book.id"
+				+ ", book.img_src"
+				+ ", book.content"
+				+ ", book.user_id"
+				+ ", book.title_tag_id"
+				+ ", book.author_tag_id"
+				+ ", book.created_date"
+				+ ", book.last_updated_date"
+				+ ", user.display_name"
+				+ " from book"
+				+ " inner join user"
+				+ " on book.user_id=user.id"
+				+ " where (book.author_tag_id=:aid)"
 				+ " limit :nof"
-				+ " offset :page", Book.class);
+				+ " offset :offset", Book.class);
 		query.setParameter("aid", aid);
 		query.setParameter("nof", nof);
-		query.setParameter("page", page);
+		query.setParameter("offset", offset);
 		List<Book> books = query.getResultList();
 		return books;
 	}
