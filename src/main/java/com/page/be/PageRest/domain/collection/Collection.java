@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.page.be.PageRest.domain.book.Book;
@@ -40,7 +41,8 @@ public class Collection {
 	@JoinTable(name="COLLECTION_BOOK",
 		joinColumns=@JoinColumn(name="COLLECTION_ID"),
 		inverseJoinColumns=@JoinColumn(name="BOOK_ID")
-	)	
+	)
+	@JsonBackReference
 	private List<Book> books = new ArrayList<>();
 	
 	public Collection() {

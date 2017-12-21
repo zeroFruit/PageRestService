@@ -95,6 +95,14 @@ insert into bookmark_book(bookmark_id, book_id)
 insert into collection(id, label, user_id)
 	values(1, 'collection-1', 1);
 insert into collection(id, label, user_id)
-	values(2, 'collection-2', 1);
-insert into collection(id, label, user_id)
-	values(3, 'collection-3', 2);
+	values(2, 'collection-2', 2);
+
+	
+insert into collection_book(collection_id, book_id)
+	values(1, 1);
+insert into collection_book(collection_id, book_id)
+	values(1, 2);
+insert into collection_book(collection_id, book_id)
+	values(2, 8);
+insert into collection_book(collection_id, book_id)
+	values(2, 9);
