@@ -91,18 +91,20 @@ insert into bookmark_book(bookmark_id, book_id)
 	values(1, 1);
 insert into bookmark_book(bookmark_id, book_id)
 	values(1, 2);
+insert into bookmark_book(bookmark_id, book_id)
+	values(1, 4);
 	
 insert into collection(id, label, user_id)
-	values(1, 'collection-1', 1);
+	values(10000, 'collection-1', 1);
 insert into collection(id, label, user_id)
-	values(2, 'collection-2', 2);
+	values(10001, 'collection-2', 2);
 
 	
 insert into collection_book(collection_id, book_id)
-	values(1, 1);
+	values(10000, 1);
 insert into collection_book(collection_id, book_id)
-	values(1, 2);
+	values(10000, 2);
 insert into collection_book(collection_id, book_id)
-	values(2, 8);
+	values(10001, 8);
 insert into collection_book(collection_id, book_id)
-	values(2, 9);
+	values(10001, 9);

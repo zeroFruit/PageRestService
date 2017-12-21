@@ -50,6 +50,7 @@ public class Book {
 	@ManyToMany
 	private List<Bookmark> bookmarks = new ArrayList<>();
 	@ManyToMany
+	@JsonBackReference
 	private List<Collection> collections = new ArrayList<>();
 	
 	public Book() {

@@ -69,6 +69,9 @@ public class Collection {
 	public List<Book> getBooks() {
 		return books;
 	}
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
 	public void addBook(Book book) {
 		this.books.add(book);
 	}

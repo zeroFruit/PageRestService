@@ -1,5 +1,6 @@
 package com.page.be.PageRest.domain.collection;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,12 @@ public class CollectionDao {
 	
 	public void deleteById(Long cid) {
 		clnRepo.deleteById(cid);
+	}
+	
+	public void deleteBook(Long cid, Long bid) {
+		Collection cln = clnRepo.findById(cid).get();
+		Book book = bookRepo.findById(bid).get();
+		cln.removeBook(book);
 	}
 	
 	public List<Book> retrieveBooksById(Long cid) {
