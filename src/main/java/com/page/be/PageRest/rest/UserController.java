@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.page.be.PageRest.domain.book.Book;
 import com.page.be.PageRest.domain.collection.Collection;
 import com.page.be.PageRest.domain.user.User;
 import com.page.be.PageRest.domain.user.UserDao;
@@ -24,5 +25,10 @@ public class UserController {
 	@GetMapping("/user/{uid}/collections")
 	public List<Collection> fetchCollections(@PathVariable Long uid) {
 		return userDao.retrieveCollections(uid);
+	}
+	
+	@GetMapping("/user/{uid}/books")
+	public List<Book> fetchBooks(@PathVariable Long uid) {
+		return userDao.retrieveBooks(uid);
 	}
 }

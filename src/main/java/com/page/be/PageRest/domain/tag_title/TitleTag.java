@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -26,7 +27,7 @@ public class TitleTag {
 	private String title;
 	
 	@OneToMany(mappedBy="titleTag")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Book> books = new ArrayList<>();
 	@ManyToMany(mappedBy="titleTags")
 	private List<AuthorTag> authorTags = new ArrayList<>();

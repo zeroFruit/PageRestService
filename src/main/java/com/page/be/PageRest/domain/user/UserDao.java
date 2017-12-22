@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.page.be.PageRest.domain.book.Book;
 import com.page.be.PageRest.domain.collection.Collection;
 
 @Repository
@@ -29,6 +30,11 @@ public class UserDao {
 	public List<Collection> retrieveCollections(Long uid) {
 		User user = userRepo.findById(uid).get();
 		return user.getCollections();
+	}
+	
+	public List<Book> retrieveBooks(Long uid) {
+		User user = userRepo.findById(uid).get();
+		return user.getBooks();
 	}
 	
 }
