@@ -17,9 +17,13 @@ import com.page.be.PageRest.domain.tag_title.TitleTagDao;
 public class TagController {
 	@Autowired
 	BookDao bookDao;
+	@Autowired
+	AuthorTagDao athrDao;
+	@Autowired
+	TitleTagDao titDao;
 	
 	@GetMapping("/tag/book/{bid}")
-	public TagDto fetchTag(@PathVariable Long bid) {
+	public TagDto fetchTagByBid(@PathVariable Long bid) {
 		TagDto tagDto = new TagDto();
 		Book book = bookDao.selectById(bid);
 		
@@ -30,4 +34,15 @@ public class TagController {
 		return tagDto;
 	}
 	
+	@GetMapping("/tag/{athrid}/{titid}")
+	public TagDto fetchTag(
+			@PathVariable Long athrid,
+			@PathVariable Long titid) {
+		TagDto tagDto = new TagDto();
+		AuthorTag athrTag = athrDao.findById(athrid);
+		TitleTag titTag = titDao.findById(titid);
+		tagDto.setAuthorTag(athrTag);
+		tagDto.setTitleTag(titTag);
+		return tagDto;
+	}
 }

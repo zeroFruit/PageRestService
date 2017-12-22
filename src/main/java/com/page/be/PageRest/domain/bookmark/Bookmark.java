@@ -55,9 +55,11 @@ public class Bookmark {
 	}
 	public void addBook(Book book) {
 		this.books.add(book);
+		this.books.sort((Book b1, Book b2) -> b1.getId().compareTo(b2.getId()));
 	}
 	public void removeBook(Book book) {
 		this.books.remove(book);
+		this.books.sort((Book b1, Book b2) -> b1.getId().compareTo(b2.getId()));
 	}
 	@Override
 	public String toString() {

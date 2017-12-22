@@ -26,8 +26,6 @@ public class SearchController {
 	public List<TagDto> searchTag(@RequestParam String t) {
 		List<TagDto> l1 = athrDao.findByAuthor(t);
 		List<TagDto> l2 = titDao.findByTitle(t);
-		logger.info("l1 => {}", l1);
-		logger.info("l2 => {}", l2);
 		return Util.union(l1, l2);
 	}
 }

@@ -27,8 +27,8 @@ public class BookController {
 		return bookDao.select(page * nof, nof);
 	}
 	
-	@GetMapping("/books/tag")
-	public List<Book> fetchBooksByTag(
+	@GetMapping("/books/book")
+	public List<Book> fetchBooksByTagWithBid(
 			@RequestParam("page") int page,
 			@RequestParam("nof") int nof,
 			@RequestParam("bid") Long bid) {
@@ -36,6 +36,15 @@ public class BookController {
 		return bookDao.selectByTag(
 				book.getTitleTag().getId(),
 				book.getAuthorTag().getId(), page * nof, nof);
+	}
+	
+	@GetMapping("/books/tag")
+	public List<Book> fetchBooksByTagWithTid(
+			@RequestParam("page") int page,
+			@RequestParam("nof") int nof,
+			@RequestParam("athrid") Long athrid,
+			@RequestParam("titid") Long titid) {
+		return bookDao.selectByTag(titid, athrid, page * nof, nof);
 	}
 	
 	@GetMapping("/books/author_tag")

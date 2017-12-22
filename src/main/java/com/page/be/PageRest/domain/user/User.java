@@ -77,5 +77,11 @@ public class User {
 	public void removeCollection(Collection collection) {
 		this.collections.remove(collection);
 	}
+	public Bookmark getBookmark() {
+		return bookmark;
+	}
+	public void setBookmark(Bookmark bookmark) {
+		this.bookmark = bookmark;
+	}
 	
 }

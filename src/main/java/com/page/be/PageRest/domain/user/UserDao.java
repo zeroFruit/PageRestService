@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.page.be.PageRest.domain.book.Book;
+import com.page.be.PageRest.domain.bookmark.Bookmark;
 import com.page.be.PageRest.domain.collection.Collection;
 
 @Repository
@@ -19,12 +20,27 @@ public class UserDao {
 	@Autowired
 	UserDataRepository userRepo;
 	
+	
 	public User findById(Long uid) {
 		return userRepo.findById(uid).get();
 	}
 	
 	public List<User> findByIds(List<Long> uids) {
 		return userRepo.findByIdIn(uids);
+	}
+	
+	public Bookmark addBookmark(Long uid, Book book) {
+		User user = findById(uid);
+		Bookmark bm = user.getBookmark();
+		bm.addBook(book);
+		return bm;
+	}
+	
+	public Bookmark removeBookmark(Long uid, Book book) {
+		User user = findById(uid);
+		Bookmark bm = user.getBookmark();
+		bm.removeBook(book);
+		return bm;
 	}
 	
 	public List<Collection> retrieveCollections(Long uid) {

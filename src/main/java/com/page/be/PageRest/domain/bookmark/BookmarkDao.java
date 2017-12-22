@@ -13,5 +13,4 @@ public class BookmarkDao {
 	public Bookmark selectByUid(Long uid) {
 		return bmRepo.findByUserId(uid);
 	}
-
 }
