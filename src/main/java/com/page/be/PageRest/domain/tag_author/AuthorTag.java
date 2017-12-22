@@ -7,16 +7,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.page.be.PageRest.domain.book.Book;
 import com.page.be.PageRest.domain.tag_title.TitleTag;
 
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Entity
 public class AuthorTag {
 	@Id
@@ -29,6 +29,11 @@ public class AuthorTag {
 	@JsonBackReference
 	private List<Book> books = new ArrayList<>();
 	@ManyToMany
+	@JoinTable(name="AUTHOR_TAG_TITLE_TAG",
+		joinColumns=@JoinColumn(name="AUTHOR_TAG_ID"),
+		inverseJoinColumns=@JoinColumn(name="TITLE_TAG_ID")
+	)
+	@JsonIgnore
 	private List<TitleTag> titleTags = new ArrayList<>();
 	
 	public AuthorTag() {

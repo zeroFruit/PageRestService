@@ -10,20 +10,38 @@ insert into user(id, display_name, last_updated_date, created_date)
 	values(5, 'user5', sysdate(), sysdate());
 
 insert into title_tag(id, title)
-	values(1, 'title-tag-1');
+	values(1, 'Wonder');
 insert into title_tag(id, title)
-	values(2, 'title-tag-2');
+	values(2, 'Obama : An Intimate Portrait');
 insert into title_tag(id, title)
-	values(3, 'title-tag-3');
+	values(3, 'Auggie & Me');
 insert into title_tag(id, title)
-	values(4, 'title-tag-4');
+	values(4, 'Harry Potter and the Prisoner of azkaban');
 	
 insert into author_tag(id, author)
-	values(1, 'author-1');
+	values(1, 'R. J. Palacio');
 insert into author_tag(id, author)
-	values(2, 'author-2');
+	values(2, 'Pete Souza');
 insert into author_tag(id, author)
-	values(3, 'author-3');
+	values(3, 'J. K. Rowling');
+
+insert into author_tag_title_tag(author_tag_id, title_tag_id)
+	values(1, 1);
+insert into author_tag_title_tag(author_tag_id, title_tag_id)
+	values(1, 3);
+insert into author_tag_title_tag(author_tag_id, title_tag_id)
+	values(2, 2);
+insert into author_tag_title_tag(author_tag_id, title_tag_id)
+	values(3, 4);
+	
+insert into title_tag_author_tag(title_tag_id, author_tag_id)
+	values(1, 1);
+insert into title_tag_author_tag(title_tag_id, author_tag_id)
+	values(3, 1);
+insert into title_tag_author_tag(title_tag_id, author_tag_id)
+	values(2, 2);
+insert into title_tag_author_tag(title_tag_id, author_tag_id)
+	values(4, 3);
 	
 insert into book(id, img_src, content, last_updated_date, created_date, user_id, title_tag_id, author_tag_id)
 	values(1,
