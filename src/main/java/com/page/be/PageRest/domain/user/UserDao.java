@@ -20,6 +20,10 @@ public class UserDao {
 	@Autowired
 	UserDataRepository userRepo;
 	
+	public User save(User user) {
+		userRepo.save(user);
+		return user;
+	}
 	
 	public User findById(Long uid) {
 		return userRepo.findById(uid).get();

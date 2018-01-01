@@ -7,18 +7,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.page.be.PageRest.domain.book.Book;
 import com.page.be.PageRest.domain.book.BookDao;
+import com.page.be.PageRest.domain.book.BookDto;
+import com.page.be.PageRest.domain.user.User;
+import com.page.be.PageRest.domain.user.UserDao;
 
 @RestController
 public class BookController {
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	BookDao bookDao;
+	@Autowired
+	UserDao userDao;
 	
 	@GetMapping("/books")
 	public List<Book> fetchBooks(
@@ -60,5 +66,18 @@ public class BookController {
 	@GetMapping("/book/{bid}")
 	public Book fetchBook(@PathVariable Long bid) {
 		return bookDao.selectById(bid);
+	}
+	
+	@PostMapping("/book")
+	public void insertBook(@RequestBody BookDto dto) {
+		String imgSrc = dto.getImgSrc();
+		String content = dto.getContent();
+		Book book = new Book(imgSrc, content);
+		
+		User user = userDao.findById(dto.getUid());
+		book.setUser(user);
+		
+		bookDao.save(book);
+		return;
 	}
 }

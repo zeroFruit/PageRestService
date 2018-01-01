@@ -83,5 +83,11 @@ public class User {
 	public void setBookmark(Bookmark bookmark) {
 		this.bookmark = bookmark;
 	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", displayName=" + displayName + ", books=" + books + ", collections=" + collections
+				+ ", bookmark=" + bookmark + "]";
+	}
+	
 	
 }
