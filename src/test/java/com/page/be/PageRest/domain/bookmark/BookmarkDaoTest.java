@@ -28,10 +28,10 @@ public class BookmarkDaoTest {
 	@Test
 	@Transactional
 	public void selectByUid_basic() {
-		Long uid = 1L;
+		Long uid = 10001L;
 		Bookmark bm = dao.selectByUid(uid);
-		assertEquals(Long.valueOf(50001L), bm.getId());
-		assertEquals(2, bm.getBooks().size());
+		assertEquals(Long.valueOf(30001L), bm.getId());
+		assertEquals(3, bm.getBooks().size());
 	}
 
 }

@@ -28,7 +28,7 @@ public class CollectionDaoTest {
 	@Test
 	@Transactional
 	public void retrieveBookById_basic() {
-		Long cid = 1L;
+		Long cid = 40001L;
 		List<Book> books = dao.retrieveBooksById(cid);
 		assertEquals(2, books.size());
 	}
@@ -37,8 +37,8 @@ public class CollectionDaoTest {
 	@Transactional
 	@DirtiesContext
 	public void updateBid_basic() {
-		Long cid = 1L;
-		Long bid = 3L;
+		Long cid = 40001L;
+		Long bid = 20003L;
 		dao.updateBid(cid, bid);
 		Collection cln = em.find(Collection.class, cid);
 		Book book = em.find(Book.class, bid);

@@ -13,4 +13,5 @@ public interface TitleTagDataRepository extends JpaRepository<TitleTag, Long>{
 			+ " where lower(title) like lower('%'||:text ||'%')", nativeQuery=true)
 	List<TitleTag> findTitleTagWithTextInTitle(@Param("text") String text);
 	List<TitleTag> findByTitleContainingIgnoreCase(String title);
+	List<TitleTag> findByTitle(String title);
 }

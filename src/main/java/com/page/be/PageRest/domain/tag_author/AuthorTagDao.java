@@ -16,6 +16,17 @@ public class AuthorTagDao {
 	@Autowired
 	AuthorTagDataRepository athrRepo;
 	
+	public AuthorTag save(String author) {
+		List<AuthorTag> authors = athrRepo.findByAuthor(author);
+		if (authors.size() != 0) {
+			return authors.get(0);
+		}
+		AuthorTag athrTag = new AuthorTag(author);
+		athrRepo.save(athrTag);
+		return athrTag;
+	}
+	
+	
 	public AuthorTag findById(Long athrid) {
 		return athrRepo.findById(athrid).get();
 	}
@@ -33,5 +44,11 @@ public class AuthorTagDao {
 			}
 		}
 		return rt;
+	}
+	
+	public void updateTitleTag(TitleTag titTag, AuthorTag athrTag) {
+		if(!athrTag.getTitleTags().contains(titTag)) {
+			athrTag.addTitleTag(titTag);
+		}
 	}
 }

@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.page.be.PageRest.domain.book.Book;
 import com.page.be.PageRest.domain.book.BookDao;
 import com.page.be.PageRest.domain.book.BookDto;
+import com.page.be.PageRest.domain.tag_author.AuthorTag;
+import com.page.be.PageRest.domain.tag_author.AuthorTagDao;
+import com.page.be.PageRest.domain.tag_title.TitleTag;
+import com.page.be.PageRest.domain.tag_title.TitleTagDao;
 import com.page.be.PageRest.domain.user.User;
 import com.page.be.PageRest.domain.user.UserDao;
 
@@ -25,6 +29,10 @@ public class BookController {
 	BookDao bookDao;
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	AuthorTagDao authorTagDao;
+	@Autowired
+	TitleTagDao titleTagDao;
 	
 	@GetMapping("/books")
 	public List<Book> fetchBooks(
@@ -72,12 +80,25 @@ public class BookController {
 	public void insertBook(@RequestBody BookDto dto) {
 		String imgSrc = dto.getImgSrc();
 		String content = dto.getContent();
-		Book book = new Book(imgSrc, content);
+		String title = dto.getTitle();
+		String author = dto.getAuthor();
 		
+		AuthorTag athrTag = authorTagDao.save(author);
+		TitleTag titTag = titleTagDao.save(title);
+		
+		Book book = new Book(imgSrc, content);
 		User user = userDao.findById(dto.getUid());
 		book.setUser(user);
-		
+		book.setAuthorTag(athrTag);
+		book.setTitleTag(titTag);
 		bookDao.save(book);
+		
+		athrTag.addBook(book);
+		titTag.addBook(book);
+	
+		authorTagDao.updateTitleTag(titTag, athrTag);
+		titleTagDao.updateAuthorTag(athrTag, titTag);
+		
 		return;
 	}
 }

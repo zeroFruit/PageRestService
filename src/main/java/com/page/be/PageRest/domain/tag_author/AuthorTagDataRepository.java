@@ -13,4 +13,5 @@ public interface AuthorTagDataRepository extends JpaRepository<AuthorTag, Long>{
 			+ " where lower(author) like lower('%' || :text || '%')", nativeQuery=true)
 	List<AuthorTag> findAuthorTagWithTextInAuthor(@Param("text") String text);
 	List<AuthorTag> findByAuthorContainingIgnoreCase(String author);
+	List<AuthorTag> findByAuthor(String author);
 }

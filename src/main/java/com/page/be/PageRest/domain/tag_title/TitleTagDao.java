@@ -19,6 +19,16 @@ public class TitleTagDao {
 	@Autowired
 	TitleTagDataRepository titRepo;
 	
+	public TitleTag save(String title) {
+		List<TitleTag> titles = titRepo.findByTitle(title);
+		if (titles.size() != 0) {
+			return titles.get(0);
+		}
+		TitleTag titTag = new TitleTag(title);
+		titRepo.save(titTag);
+		return titTag;
+	}
+	
 	public TitleTag findById(Long titid) {
 		return titRepo.findById(titid).get();
 	}
@@ -37,5 +47,11 @@ public class TitleTagDao {
 			}
 		}
 		return rt;
+	}
+	
+	public void updateAuthorTag(AuthorTag athrTag, TitleTag titTag) {
+		if (!titTag.getAuthorTags().contains(athrTag)) {
+			titTag.addAuthorTag(athrTag);
+		}
 	}
 }
