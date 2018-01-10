@@ -58,6 +58,7 @@ public class BookDao {
 				+ " from book"
 				+ " inner join user"
 				+ " on book.user_id=user.id"
+				+ " order by book.last_updated_date desc"
 				+ " limit :nof"
 				+ " offset :offset", Book.class);
 		
@@ -83,6 +84,7 @@ public class BookDao {
 				+ " inner join user"
 				+ " on book.user_id=user.id"
 				+ " where (book.title_tag_id=:tid and book.author_tag_id=:aid)"
+				+ " order by book.last_updated_date desc"
 				+ " limit :nof"
 				+ " offset :offset", Book.class);
 		query.setParameter("tid", tid);

@@ -26,6 +26,7 @@ import com.page.be.PageRest.domain.tag_title.TitleTag;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes=PageRestApplication.class)
 public class BookDaoTest {
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	BookDao dao;
 	@Autowired
@@ -36,8 +37,7 @@ public class BookDaoTest {
 		int offset = 0, nof = 3;
 		List<Book> books = dao.select(offset, nof);
 		assertEquals(3, books.size());
-		assertEquals("content1", books.get(0).getContent());
-		assertEquals("user1", books.get(0).getUser().getDisplayName());
+		logger.info("{}", books);
 	}
 	
 	@Test
@@ -48,6 +48,7 @@ public class BookDaoTest {
 		int nof = 3;
 		List<Book> books = dao.selectByTag(tid, aid, page, nof);
 		assertEquals(3, books.size());
+		logger.info("{}", books);
 	}
 	
 	@Test
