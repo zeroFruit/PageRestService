@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -15,9 +16,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.page.be.PageRest.domain.bookmark.Bookmark;
 import com.page.be.PageRest.domain.collection.Collection;
 import com.page.be.PageRest.domain.tag_author.AuthorTag;
@@ -31,6 +30,8 @@ public class Book {
 	private Long id;
 	@Column
 	private String imgSrc;
+	
+	@Lob
 	@Column
 	private String content;
 	@UpdateTimestamp
