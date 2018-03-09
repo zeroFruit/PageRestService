@@ -1,8 +1,10 @@
 package com.page.be.PageRest.domain.book;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.slf4j.Logger;
@@ -132,7 +134,7 @@ public class BookDao {
 		User user = userRepo.findById(uid).get();
 		return user.getBooks();
 	}
-	
+
 	public Book updateBookmark(Long bid, Long bmid) {
 		Book book = selectById(bid);
 		Bookmark bm = bmRepo.findById(bmid).get();
@@ -156,7 +158,46 @@ public class BookDao {
 		em.persist(cln);
 		return book;
 	}
-	
+
+	public void updateById(Long bid, BookDto dto) {
+        String content = dto.getContent();
+        Long athrid = dto.getAthrid();
+        Long titid = dto.getTitid();
+
+        Query query = em.createNativeQuery(
+                "UPDATE book" +
+                        " SET" +
+                        "   book.content = :content" +
+                        "   , book.author_tag_id = :athrid" +
+                        "   , book.title_tag_id = :titid" +
+                        " WHERE " +
+                        "   id = :bid", Book.class);
+        query.setParameter("content", content);
+        query.setParameter("athrid", athrid);
+        query.setParameter("titid", titid);
+        query.setParameter("bid", bid);
+        query.executeUpdate();
+    }
+
+	public void deleteById(Long bid) {
+	    try {
+            Book book = selectById(bid);
+            Query query = em.createNativeQuery(
+                    "DELETE " +
+                            "FROM bookmark_book " +
+                            "WHERE bookmark_book.book_id = :bid",
+                    Bookmark.class);
+            query.setParameter("bid", bid);
+            query.executeUpdate();
+
+            bookRepo.deleteById(bid);
+        } catch (NoSuchElementException e) {
+            return;
+        }
+
+
+    }
+
 	public Book deleteFromBookmark(Long bid, Long bmid) {
 		Book book = selectById(bid);
 		Bookmark bm = bmRepo.findById(bmid).get();

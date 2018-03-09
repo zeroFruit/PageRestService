@@ -1,6 +1,7 @@
 package com.page.be.PageRest.domain.user;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
 
@@ -28,6 +29,13 @@ public class UserDao {
 	public User findById(Long uid) {
 		return userRepo.findById(uid).get();
 	}
+	public User findByEmail(String email) {
+		try {
+			return userRepo.findByEmail(email).get();
+		} catch (NoSuchElementException e) {
+			return null;
+		}
+	}
 	
 	public List<User> findByIds(List<Long> uids) {
 		return userRepo.findByIdIn(uids);
@@ -45,6 +53,13 @@ public class UserDao {
 		Bookmark bm = user.getBookmark();
 		bm.removeBook(book);
 		return bm;
+	}
+
+	public User updateProfile(Long uid, String profile) {
+		User user = findById(uid);
+		user.setProfile(profile);
+		em.persist(user);
+		return user;
 	}
 	
 	public List<Collection> retrieveCollections(Long uid) {

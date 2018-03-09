@@ -60,7 +60,9 @@ public class TitleTag {
 		return books;
 	}
 	public void addBook(Book book) {
-		this.books.add(book);
+		if (!this.books.contains(book)) {
+			this.books.add(book);
+		}
 	}
 	public List<AuthorTag> getAuthorTags() {
 		return authorTags;
@@ -71,6 +73,11 @@ public class TitleTag {
 	@Override
 	public String toString() {
 		return "TitleTag [id=" + id + ", title=" + title + "]";
+	}
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof TitleTag)) return false;
+		return this.title == ((TitleTag) o).getTitle();
 	}
 	
 }

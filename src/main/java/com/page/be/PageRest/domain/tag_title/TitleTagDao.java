@@ -28,6 +28,10 @@ public class TitleTagDao {
 		titRepo.save(titTag);
 		return titTag;
 	}
+
+	public boolean isTitleTagExist(String title) {
+		return titRepo.findByTitle(title).size() != 0;
+	}
 	
 	public TitleTag findById(Long titid) {
 		return titRepo.findById(titid).get();
@@ -54,4 +58,6 @@ public class TitleTagDao {
 			titTag.addAuthorTag(athrTag);
 		}
 	}
+
+
 }

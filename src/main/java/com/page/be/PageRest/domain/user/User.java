@@ -4,12 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,8 +22,19 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	@Column
 	private String displayName;
+
+	@Column
+	private String email;
+
+	@Column(columnDefinition = "TEXT")
+	private String profile;
+
+	@Column
+	private String pw;
+	
 	@UpdateTimestamp
 	private LocalDateTime lastUpdatedDate;
 	@CreationTimestamp
@@ -37,18 +43,28 @@ public class User {
 	@OneToMany(mappedBy="user")
 	@JsonBackReference
 	private List<Book> books = new ArrayList<>();
+
 	@OneToMany(mappedBy="user")
 	@JsonBackReference
 	private List<Collection> collections = new ArrayList<>();
+
 	@OneToOne(mappedBy="user")
 	@JsonBackReference
 	private Bookmark bookmark;
 	
 	public User() {
 	}
+
 	public User(String displayName) {
 		super();
 		this.displayName = displayName;
+	}
+	public User(String displayName, String email, String profile, String pw) {
+		super();
+		this.displayName = displayName;
+		this.email = email;
+		this.profile = profile;
+		this.pw = pw;
 	}
 	public String getDisplayName() {
 		return displayName;
@@ -83,11 +99,38 @@ public class User {
 	public void setBookmark(Bookmark bookmark) {
 		this.bookmark = bookmark;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPw() {
+		return pw;
+	}
+
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", displayName=" + displayName + ", books=" + books + ", collections=" + collections
-				+ ", bookmark=" + bookmark + "]";
+		return "User{" +
+				"id=" + id +
+				", displayName='" + displayName + '\'' +
+				", email='" + email + '\'' +
+				", profile='" + profile + '\'' +
+				'}';
 	}
-	
-	
 }

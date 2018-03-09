@@ -1,13 +1,17 @@
 package com.page.be.PageRest.rest;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.page.be.PageRest.domain.bookmark.BookmarkDao;
+import com.page.be.PageRest.domain.user.UserDto;
+import com.page.be.PageRest.rest.response.BookResponseDto;
+import com.page.be.PageRest.security.JwtGenerator;
+import com.page.be.PageRest.security.UserPasswordEncoder;
+import com.page.be.PageRest.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.page.be.PageRest.domain.book.Book;
 import com.page.be.PageRest.domain.book.BookDao;
@@ -22,35 +26,102 @@ public class UserController {
 	UserDao userDao;
 	@Autowired
 	BookDao bookDao;
-	
+	@Autowired
+	BookmarkDao bmDao;
+	@Autowired
+	UserPasswordEncoder encoder;
+	@Autowired
+	JwtGenerator gen;
+
 	@GetMapping("/user/{uid}")
 	public User fetchUsers(@PathVariable Long uid) {
 		return userDao.findById(uid);
 	}
-	
+
 	@GetMapping("/user/{uid}/collections")
 	public List<Collection> fetchCollections(@PathVariable Long uid) {
 		return userDao.retrieveCollections(uid);
 	}
-	
+
 	@GetMapping("/user/{uid}/books")
-	public List<Book> fetchBooks(@PathVariable Long uid) {
-		return userDao.retrieveBooks(uid);
+	public List<BookResponseDto> fetchBooks(@PathVariable Long uid) {
+		List<Book> books = userDao.retrieveBooks(uid);
+		return setBookmarkCountsToBookResponseDto(books);
 	}
-	
+
+	private List<BookResponseDto> setBookmarkCountsToBookResponseDto(List<Book> books) {
+		List<BookResponseDto> res = new ArrayList<>();
+		for (Book book : books) {
+			BigInteger cnt = bmDao.findBookmarkCount(book.getId());
+			BookResponseDto resDto = new BookResponseDto(book, cnt);
+			res.add(resDto);
+		}
+		return res;
+	}
+
+	@PostMapping("/signup")
+	public void signup(@RequestBody UserDto dto) {
+		String hashed = encoder.encode(dto.getPw());
+		if (userDao.findByEmail(dto.getEmail()) != null) {
+			throw new RuntimeException("같은 이메일의 회원이 존재합니다.");
+		}
+		User user = new User(
+				dto.getDisplayName(),
+				dto.getEmail(),
+				dto.getProfile(),
+				hashed);
+		userDao.save(user);
+		Bookmark bm = new Bookmark(user);
+		bmDao.save(bm);
+	}
+
+	@PostMapping("/signin")
+	public TokenResponseDto signin(@RequestBody UserDto dto) {
+		String rawPassword = dto.getPw();
+		try {
+			User user = userDao.findByEmail(dto.getEmail());
+			if (encoder.matches(rawPassword, user.getPw())) {
+				String accessToken = gen.generateTokenForUser(user);
+				return new TokenResponseDto(
+						accessToken,
+						user.getProfile(),
+						user.getEmail(),
+						user.getDisplayName(),
+						user.getId());
+			} else {
+				throw new RuntimeException("아이디나 패스워드가 정확하지 않습니다.");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("아이디나 패스워드가 정확하지 않습니다.");
+		}
+	}
+
+
 	@PutMapping("/user/{uid}/bookmark/{bid}")
-	public Bookmark addBookmark(
+	public BookResponseDto addBookmark(
 			@PathVariable Long uid,
 			@PathVariable Long bid) {
 		Book book = bookDao.selectById(bid);
-		return userDao.addBookmark(uid, book);
+		userDao.addBookmark(uid, book);
+		return setBookmarkCountToBookResponseDto(book);
+	}
+
+	@PutMapping("/user/profile")
+	public User editProfile(@RequestBody UserDto dto) {
+		return userDao.updateProfile(dto.getId(), dto.getProfile());
 	}
 
 	@DeleteMapping("/user/{uid}/bookmark/{bid}")
-	public Bookmark removeBookmark(
+	public BookResponseDto removeBookmark(
 			@PathVariable Long uid,
 			@PathVariable Long bid) {
 		Book book = bookDao.selectById(bid);
-		return userDao.removeBookmark(uid, book);
+		userDao.removeBookmark(uid, book);
+		return setBookmarkCountToBookResponseDto(book);
+	}
+
+	private BookResponseDto setBookmarkCountToBookResponseDto(Book book) {
+		BigInteger cnt = bmDao.findBookmarkCount(book.getId());
+		return new BookResponseDto(book, cnt);
 	}
 }

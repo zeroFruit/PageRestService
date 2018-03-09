@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.page.be.PageRest.PageRestApplication;
 
+import java.math.BigInteger;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes=PageRestApplication.class)
 public class BookmarkDaoTest {
@@ -33,5 +35,21 @@ public class BookmarkDaoTest {
 		assertEquals(Long.valueOf(30001L), bm.getId());
 		assertEquals(3, bm.getBooks().size());
 	}
+
+	@Test
+	@Transactional
+	public void findBookmarkCount_basic() {
+		Long bid = 20001L;
+		BigInteger cnt = dao.findBookmarkCount(bid);
+		System.out.println("test result >> " + cnt);
+	}
+
+    @Test
+    @Transactional
+    public void findBookmarkCount_no_result_test() {
+        Long bid = 20011L;
+        BigInteger cnt = dao.findBookmarkCount(bid);
+        System.out.println("test result >> " + cnt);
+    }
 
 }

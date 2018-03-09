@@ -55,7 +55,9 @@ public class AuthorTag {
 		return books;
 	}
 	public void addBook(Book book) {
-		this.books.add(book);
+		if (!this.books.contains(book)) {
+			this.books.add(book);
+		}
 	}
 	public void removeBook(Book book) {
 		this.books.remove(book);
@@ -72,6 +74,12 @@ public class AuthorTag {
 	@Override
 	public String toString() {
 		return "AuthorTag [id=" + id + ", author=" + author + "]";
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof AuthorTag)) return false;
+		return this.author == ((AuthorTag) o).getAuthor();
 	}
 	
 }

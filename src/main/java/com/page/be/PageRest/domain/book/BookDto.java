@@ -3,6 +3,8 @@ package com.page.be.PageRest.domain.book;
 public class BookDto {
 	private Long id;
 	private Long uid;
+	private Long titid;
+	private Long athrid;
 	private String imgSrc;
 	private String content;
 	private String title;
@@ -20,6 +22,23 @@ public class BookDto {
 	public void setUid(Long uid) {
 		this.uid = uid;
 	}
+
+	public Long getTitid() {
+		return titid;
+	}
+
+	public void setTitid(Long titid) {
+		this.titid = titid;
+	}
+
+	public Long getAthrid() {
+		return athrid;
+	}
+
+	public void setAthrid(Long athrid) {
+		this.athrid = athrid;
+	}
+
 	public String getImgSrc() {
 		return imgSrc;
 	}
@@ -44,6 +63,7 @@ public class BookDto {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
+
 	
 	
 }

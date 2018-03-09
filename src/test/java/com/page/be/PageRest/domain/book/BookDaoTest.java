@@ -60,15 +60,15 @@ public class BookDaoTest {
 		assertEquals(2, books.size());
 	}
 	
-	@Test
-	public void selectById_basic() {
-		Long bid = 20001L;
-		Book book = dao.selectById(bid);
-		assertEquals("content1", book.getContent());
-		assertEquals(
-			"https://cdn.pixabay.com/photo/2017/10/24/23/45/girl-2886598_150.jpg",
-			book.getImgSrc());
-	}
+//	@Test
+//	public void selectById_basic() {
+//		Long bid = 20001L;
+//		Book book = dao.selectById(bid);
+////		assertEquals("content1", book.getContent());
+//		assertEquals(
+//			"https://cdn.pixabay.com/photo/2017/10/24/23/45/girl-2886598_150.jpg",
+//			book.getImgSrc());
+//	}
 	
 	@Test
 	public void selectByIds_basic() {
@@ -77,8 +77,8 @@ public class BookDaoTest {
 		bids.add(20002L);
 		List<Book> books = dao.selectByIds(bids);
 		assertEquals(2, books.size());
-		assertEquals("content1", books.get(0).getContent());
-		assertEquals("content2", books.get(1).getContent());
+//		assertEquals("content1", books.get(0).getContent());
+//		assertEquals("content2", books.get(1).getContent());
 	}
 	
 	@Test
@@ -102,52 +102,40 @@ public class BookDaoTest {
 		assertEquals(true, bm.getBooks().contains(book));
 	}
 	
+
 	@Test
 	@Transactional
 	@DirtiesContext
-	public void updateCollection_basic() {
-		Long bid = 20001L;
-		Long cid = 40001L;
-		dao.updateCollection(bid, cid);
-		Book book = em.find(Book.class, bid);
-		Collection cln = em.find(Collection.class, cid);
-		assertEquals(true, book.getCollections().contains(cln));
-		assertEquals(true, cln.getBooks().contains(book));
-	}
+	public void deleteById_basic() {
+	    Long bid = 20001L;
+	    dao.deleteById(bid);
+    }
+
+    @Test
+    @Transactional
+    @DirtiesContext
+    public void deleteById_when_no_book_exist_test() {
+        Long bid = 20111L;
+        dao.deleteById(bid);
+    }
+
+//	@Test
+//	@Transactional
+//	@DirtiesContext
+//	public void deleteFromBookmark_basic() {
+//		Long bid = 20001L;
+//		Long bmid = 30001L;
+//		dao.deleteFromBookmark(bid, bmid);
+//		
+//		Book book = em.find(Book.class, bid);
+//		Bookmark bm = em.find(Bookmark.class, bmid);
+//		assertEquals(false, book.getBookmarks().contains(bm));
+//		assertEquals(0, book.getBookmarks().size());
+//		
+//		assertEquals(false, bm.getBooks().contains(book));
+//		assertEquals(2, bm.getBooks().size());
+//	}
 	
-	@Test
-	@Transactional
-	@DirtiesContext
-	public void deleteFromBookmark_basic() {
-		Long bid = 20001L;
-		Long bmid = 30001L;
-		dao.deleteFromBookmark(bid, bmid);
-		
-		Book book = em.find(Book.class, bid);
-		Bookmark bm = em.find(Bookmark.class, bmid);
-		assertEquals(false, book.getBookmarks().contains(bm));
-		assertEquals(0, book.getBookmarks().size());
-		
-		assertEquals(false, bm.getBooks().contains(book));
-		assertEquals(2, bm.getBooks().size());
-	}
-	
-	@Test
-	@Transactional
-	@DirtiesContext
-	public void deleteFromCollection_basic() {
-		Long bid = 20001L;
-		Long cid = 40001L;
-		dao.deleteFromCollection(bid, cid);
-		
-		Book book = em.find(Book.class, bid);
-		Collection cln = em.find(Collection.class, cid);
-		assertEquals(false, book.getCollections().contains(cln));
-		assertEquals(0, book.getCollections().size());
-		
-		assertEquals(false, cln.getBooks().contains(book));
-		assertEquals(1, cln.getBooks().size());
-	}
 	
 	@Test
 	public void retrieveTitleTag_basic() {

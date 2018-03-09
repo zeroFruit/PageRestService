@@ -25,6 +25,10 @@ public class AuthorTagDao {
 		athrRepo.save(athrTag);
 		return athrTag;
 	}
+
+	public boolean isAuthorTagExist(String author) {
+		return athrRepo.findByAuthor(author).size() != 0;
+	}
 	
 	
 	public AuthorTag findById(Long athrid) {

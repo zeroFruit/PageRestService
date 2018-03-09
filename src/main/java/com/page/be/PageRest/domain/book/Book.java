@@ -73,6 +73,7 @@ public class Book {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public void setId(Long id) { this.id = id; }
 	public Long getId() {
 		return id;
 	}
@@ -117,6 +118,11 @@ public class Book {
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", content=" + content + "]";
+	}
+	@Override
+	public boolean equals(Object o) {
+		if(!(o instanceof Book)) return false;
+		return (this.imgSrc == ((Book) o).getImgSrc());
 	}
 	
 }
