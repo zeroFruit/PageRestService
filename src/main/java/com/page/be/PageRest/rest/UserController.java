@@ -4,10 +4,12 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.page.be.PageRest.domain.JwtUser;
 import com.page.be.PageRest.domain.bookmark.BookmarkDao;
 import com.page.be.PageRest.domain.user.UserDto;
 import com.page.be.PageRest.rest.response.BookResponseDto;
 import com.page.be.PageRest.security.JwtGenerator;
+import com.page.be.PageRest.security.JwtValidator;
 import com.page.be.PageRest.security.UserPasswordEncoder;
 import com.page.be.PageRest.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,8 @@ public class UserController {
 	UserPasswordEncoder encoder;
 	@Autowired
 	JwtGenerator gen;
+	@Autowired
+	JwtValidator validator;
 
 	@GetMapping("/user/{uid}")
 	public User fetchUsers(@PathVariable Long uid) {
@@ -78,8 +82,10 @@ public class UserController {
 	@PostMapping("/signin")
 	public TokenResponseDto signin(@RequestBody UserDto dto) {
 		String rawPassword = dto.getPw();
+		String email = dto.getEmail();
 		try {
-			User user = userDao.findByEmail(dto.getEmail());
+			User user = userDao.findByEmail(email);
+			System.out.println(user);
 			if (encoder.matches(rawPassword, user.getPw())) {
 				String accessToken = gen.generateTokenForUser(user);
 				return new TokenResponseDto(
@@ -96,8 +102,26 @@ public class UserController {
 		}
 	}
 
+	@PostMapping("/signin/token")
+	public TokenResponseDto signinWithToken(@RequestBody UserDto dto) {
+		String accessToken = dto.getAccessToken();
+		JwtUser jwtUser = validator.validate(accessToken);
+		try {
+			User user = userDao.findById(jwtUser.getId());
+			return new TokenResponseDto(
+					accessToken,
+					user.getProfile(),
+					user.getEmail(),
+					user.getDisplayName(),
+					user.getId());
+		} catch (Exception e) {
+			throw new RuntimeException("아이디나 패스워드가 정확하지 않습니다.");
+		}
+	}
+
 
 	@PutMapping("/user/{uid}/bookmark/{bid}")
+
 	public BookResponseDto addBookmark(
 			@PathVariable Long uid,
 			@PathVariable Long bid) {

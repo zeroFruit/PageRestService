@@ -1,9 +1,11 @@
 package com.page.be.PageRest.domain.user;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -69,7 +71,9 @@ public class UserDao {
 	
 	public List<Book> retrieveBooks(Long uid) {
 		User user = userRepo.findById(uid).get();
-		return user.getBooks();
+		List<Book> books = user.getBooks();
+		Collections.sort(books);
+		return books;
 	}
 	
 }

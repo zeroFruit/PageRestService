@@ -6,6 +6,7 @@ public class UserDto {
     private String email;
     private String pw;
     private String profile;
+    private String accessToken;
 
     public String getDisplayName() {
         return displayName;
@@ -29,6 +30,10 @@ public class UserDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
     }
 
     @Override

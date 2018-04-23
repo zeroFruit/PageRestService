@@ -10,10 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtGenerator {
     public String generate(JwtUser jwtUser) {
-        Claims claims = Jwts.claims()
-                .setSubject(jwtUser.getUserName());
+        Claims claims = Jwts.claims();
         claims.put("userId", String.valueOf(jwtUser.getId()));
-        claims.put("role", jwtUser.getRole());
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -25,6 +23,7 @@ public class JwtGenerator {
         Claims claims = Jwts.claims()
                 .setSubject(user.getDisplayName());
         claims.put("id", user.getId());
+        claims.put("email", user.getEmail());
 
         return Jwts.builder()
                 .setClaims(claims)

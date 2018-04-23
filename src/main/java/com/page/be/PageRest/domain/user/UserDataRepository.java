@@ -12,4 +12,5 @@ import com.page.be.PageRest.domain.tag_title.TitleTag;
 public interface UserDataRepository extends JpaRepository<User, Long> {
 	List<User> findByIdIn(List<Long> uids);
     Optional<User> findByEmail(String email);
+
 }

@@ -1,31 +1,30 @@
 package com.page.be.PageRest.domain;
 
 public class JwtUser {
-    private String userName;
     private long id;
-    private String role;
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+    private String email;
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getUserName() {
-        return userName;
     }
 
     public long getId() {
         return id;
     }
 
-    public String getRole() {
-        return role;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "JwtUser{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

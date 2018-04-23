@@ -17,13 +17,11 @@ public class JwtValidator {
                     .parseClaimsJws(token)
                     .getBody();
             jwtUser = new JwtUser();
-            jwtUser.setUserName(body.getSubject());
-            jwtUser.setId(Long.parseLong((String) body.get("userId")));
-            jwtUser.setRole((String) body.get("role"));
+            jwtUser.setId(Long.parseLong(body.get("id").toString()));
+            jwtUser.setEmail(body.get("email").toString());
         } catch (Exception e) {
             System.out.println(e);
         }
-
         return jwtUser;
     }
 }

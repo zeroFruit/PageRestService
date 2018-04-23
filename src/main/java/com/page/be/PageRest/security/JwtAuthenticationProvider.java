@@ -25,17 +25,18 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
 
     @Override
     protected UserDetails retrieveUser(String s, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
-        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) usernamePasswordAuthenticationToken;
-        String token = jwtAuthenticationToken.getToken();
-        JwtUser jwtUser = validator.validate(token);
-        if (jwtUser == null) {
-            throw new RuntimeException("Jwt token is incorrect");
-        }
-        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList(jwtUser.getRole());
-        return new JwtUserDetails(jwtUser.getUserName(), jwtUser.getId(),
-                token,
-                grantedAuthorities);
+//        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) usernamePasswordAuthenticationToken;
+//        String token = jwtAuthenticationToken.getToken();
+//        JwtUser jwtUser = validator.validate(token);
+//        if (jwtUser == null) {
+//            throw new RuntimeException("Jwt token is incorrect");
+//        }
+//        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+//                .commaSeparatedStringToAuthorityList(jwtUser.getRole());
+//        return new JwtUserDetails(jwtUser.getUserName(), jwtUser.getId(),
+//                token,
+//                grantedAuthorities);
+        return null;
     }
 
     @Override
