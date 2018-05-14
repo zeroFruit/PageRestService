@@ -1,5 +1,12 @@
 package com.page.be.PageRest.domain.book;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityResult;
+import javax.persistence.FieldResult;
+import javax.persistence.SqlResultSetMapping;
+import java.time.LocalDateTime;
+
+
 public class BookDto {
 	private Long id;
 	private Long uid;
@@ -9,6 +16,7 @@ public class BookDto {
 	private String content;
 	private String title;
 	private String author;
+	private LocalDateTime createdDate;
 	
 	public Long getId() {
 		return id;
@@ -64,6 +72,26 @@ public class BookDto {
 		this.author = author;
 	}
 
-	
-	
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    @Override
+    public String toString() {
+        return "BookDto{" +
+                "id=" + id +
+                ", uid=" + uid +
+                ", titid=" + titid +
+                ", athrid=" + athrid +
+                ", imgSrc='" + imgSrc + '\'' +
+                ", content='" + content + '\'' +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", createdDate=" + createdDate +
+                '}';
+    }
 }

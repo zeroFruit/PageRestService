@@ -12,4 +12,5 @@ public interface BookDataRepository extends JpaRepository<Book, Long> {
 	List<Book> findByIdIn(List<Long> bids);
 	@Transactional
     int removeById(Long bid);
+
 }

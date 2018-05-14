@@ -1,11 +1,13 @@
 package com.page.be.PageRest.domain.book;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Tuple;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -152,4 +154,17 @@ public class BookDaoTest {
 //		assertEquals(Long.valueOf(60001L), authorTag.getId());
 //		assertEquals("R. J. Palacio", authorTag.getAuthor());
 //	}
+
+    @Test
+    @Transactional
+    @DirtiesContext
+    public void selectRecentCreatedPostedBook_basic() {
+	    List<BookDto> books = dao.selectRecentCreatedBooks();
+	    assertEquals(5, books.size());
+        BookDto b1 = books.get(0);
+        BookDto b2 = books.get(1);
+        System.out.println(b1);
+        System.out.println(b2);
+
+    }
 }

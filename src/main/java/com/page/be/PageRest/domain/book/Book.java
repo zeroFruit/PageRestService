@@ -4,13 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,6 +17,28 @@ import com.page.be.PageRest.domain.tag_author.AuthorTag;
 import com.page.be.PageRest.domain.tag_title.TitleTag;
 import com.page.be.PageRest.domain.user.User;
 
+@SqlResultSetMapping(
+        name = "RecentCreatedBookMapping",
+        entities = {
+                @EntityResult(
+                        entityClass = Book.class,
+                        fields = {
+                                @FieldResult(name="created_date", column="created_date"),
+                        }),
+                @EntityResult(
+                        entityClass = TitleTag.class,
+                        fields = {
+                                @FieldResult(name="id", column="titid"),
+                                @FieldResult(name="title", column="title")
+                        }),
+                @EntityResult(
+                        entityClass = AuthorTag.class,
+                        fields = {
+                                @FieldResult(name="id", column="athrid"),
+                                @FieldResult(name="author", column="author")
+                        })
+        }
+)
 @Entity
 public class Book implements Comparable<Book> {
 	@Id

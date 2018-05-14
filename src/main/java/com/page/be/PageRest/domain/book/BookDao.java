@@ -1,12 +1,16 @@
 package com.page.be.PageRest.domain.book;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.Tuple;
 
+import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +138,36 @@ public class BookDao {
 		User user = userRepo.findById(uid).get();
 		return user.getBooks();
 	}
+
+	public List<BookDto> selectRecentCreatedBooks() {
+        Query query = em.createNativeQuery(
+                    "SELECT"
+                    + " ANY_VALUE(book.author_tag_id) AS athrid"
+                    + " , ANY_VALUE(book.title_tag_id) AS titid"
+                    + " , ANY_VALUE(title_tag.title) AS title"
+                    + " , ANY_VALUE(author_tag.author) AS author"
+                    + " FROM book"
+                    + " INNER JOIN author_tag"
+                    + "     ON author_tag.id = book.author_tag_id"
+                    + " INNER JOIN title_tag"
+                    + "     ON title_tag.id = book.title_tag_id"
+                    + " GROUP BY title_tag.title"
+                    + " ORDER BY ANY_VALUE(book.created_date) DESC"
+                    + " LIMIT 5", Tuple.class);
+        List<Tuple> results = query.getResultList();
+        List<BookDto> books = new ArrayList<>();
+
+        for (Tuple result: results) {
+            BookDto book = new BookDto();
+            book.setAthrid(((Number)result.get("athrid")).longValue());
+            book.setTitid(((Number) result.get("titid")).longValue());
+            book.setTitle(result.get("title").toString());
+            book.setAuthor(result.get("author").toString());
+            books.add(book);
+        }
+
+        return books;
+    }
 
 	public Book updateBookmark(Long bid, Long bmid) {
 		Book book = selectById(bid);

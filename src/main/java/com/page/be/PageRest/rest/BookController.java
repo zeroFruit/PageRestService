@@ -21,6 +21,8 @@ import com.page.be.PageRest.domain.tag_title.TitleTagDao;
 import com.page.be.PageRest.domain.user.User;
 import com.page.be.PageRest.domain.user.UserDao;
 
+import javax.persistence.Tuple;
+
 @RestController
 public class BookController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -100,6 +102,11 @@ public class BookController {
         int page = 0, nof = 5;
         List<Book> books = bookDao.select(page * nof, nof);
         return setBookmarkCountsToBookResponseDto(books);
+    }
+
+    @GetMapping("/books/recent")
+    public List<BookDto> fetchRecentPostedBook() {
+        return bookDao.selectRecentCreatedBooks();
     }
 
     @PostMapping("/book")
