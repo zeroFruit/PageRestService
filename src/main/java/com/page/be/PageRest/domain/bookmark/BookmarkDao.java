@@ -51,6 +51,8 @@ public class BookmarkDao {
                         " FROM bookmark_book" +
                         " INNER JOIN book" +
                         " ON bookmark_book.book_id = book.id" +
+                        " WHERE bookmark_book.created_date <= CURRENT_TIMESTAMP" +
+                        "   AND bookmark_book.created_date >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 DAY)" +
                         " GROUP BY athr, tit" +
                         " ORDER BY bmcnt DESC" +
                         " LIMIT 5", "BookmarkRankMapping");

@@ -31,7 +31,7 @@ public class AuthorTagDaoTest {
 		String author = "R. J. Palacio";
 		AuthorTag athrTag = dao.save(author);
 		assertEquals(Long.valueOf(60001L), athrTag.getId());
-		assertEquals(3, repo.findAll().size());
+		assertEquals(5, repo.findAll().size());
 	}
 	
 	@Test
@@ -41,7 +41,7 @@ public class AuthorTagDaoTest {
 		String author = "New Author";
 		AuthorTag athrTag = dao.save(author);
 		assertEquals(author, athrTag.getAuthor());
-		assertEquals(4, repo.findAll().size());
+		assertEquals(5, repo.findAll().size());
 	}
 	
 	@Test

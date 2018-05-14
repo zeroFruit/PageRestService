@@ -32,7 +32,7 @@ public class TitleTagDaoTest {
 		String title = "Wonder";
 		TitleTag titTag = dao.save(title);
 		assertEquals(Long.valueOf(50001L), titTag.getId());
-		assertEquals(4, repo.findAll().size());
+		assertEquals(6, repo.findAll().size());
 	}
 	
 	@Test
@@ -42,7 +42,7 @@ public class TitleTagDaoTest {
 		String title = "New Title";
 		TitleTag titTag = dao.save(title);
 		assertEquals(title, titTag.getTitle());
-		assertEquals(5, repo.findAll().size());
+		assertEquals(6, repo.findAll().size());
 	}
 	
 	@Test

@@ -61,4 +61,15 @@ public class RankDto {
     public void setBmcnt(BigInteger bmcnt) {
         this.bmcnt = bmcnt;
     }
+
+    @Override
+    public String toString() {
+        return "RankDto{" +
+                "athr=" + athr +
+                ", tit=" + tit +
+                ", author=" + author +
+                ", title=" + title +
+                ", bmcnt=" + bmcnt +
+                '}';
+    }
 }
